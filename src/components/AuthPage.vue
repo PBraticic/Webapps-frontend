@@ -1,31 +1,31 @@
 <template>
   <div class="pozadina">
-    <p style="font-size: 200px; text-align: center;">SitCo</p>
+    <p style="font-size: 200px; text-align: center; font-family: 'Brush Script MT'; color: #6428bd; text-shadow: -4px 0 black, 0 10px black, 4px 0 black, 0 -4px black;">SitCo</p>
 
     <div class="form-box">
       <div class="button-box">
-        <button type="button" class="toggle-btn login-btn " @click="showLogin">Log In</button>
-        <button type="button" class="toggle-btn register-btn" @click="showRegister">Register</button>
+        <button type="button" class="toggle-btn login-btn fs-5 fw-bold" @click="showLogin">Log In</button>
+        <button type="button" class="toggle-btn register-btn fs-5 fw-bold" @click="showRegister">Register</button>
       </div>
 
       
       
       <form v-if="isLogin" class="input-group" @submit.prevent="login">
-        <input type="text" class="input-field" placeholder="Email" v-model="loginEmail" required>
-        <input type="password" class="input-field" placeholder="Enter Password" v-model="loginPassword" required>
+        <input type="text " class="input-field fs-5 fw-bold" placeholder="Email" v-model="loginEmail" required>
+        <input type="password" class="input-field fs-5 fw-bold" placeholder="Enter Password" v-model="loginPassword" required>
         <button type="submit" class="submit-btn">Login</button>
       </form>
 
         
     <form v-else class="input-group" @submit.prevent="register">
-    <input type="text" class="input-field" placeholder="User Name" v-model="registerUsername" required>
-    <input type="email" class="input-field" placeholder="Email" v-model="registerEmail" required>
-    <input type="password" class="input-field" placeholder="Enter Password" v-model="registerPassword" required>
+    <input type="text" class="input-field fs-5 fw-bold" placeholder="User Name " v-model="registerUsername" required>
+    <input type="email" class="input-field fs-5 fw-bold" placeholder="Email" v-model="registerEmail" required>
+    <input type="password" class="input-field fs-5 fw-bold" placeholder="Enter Password" v-model="registerPassword" required>
     <div>
         <input type="radio" id="user" value="user" v-model="userType">
-        <label for="user">User</label>
+        <label for="user" class="fs-5 fw-bold">User</label>
         <input type="radio" id="employee" value="employee" v-model="userType">
-        <label for="employee">Employee</label>
+        <label for="employee" class="fs-5 fw-bold">Employee</label>
     </div>
     <br>
     <button type="submit" class="submit-btn">Register</button>
@@ -80,6 +80,7 @@ export default {
             localStorage.setItem('userType', data.userType); 
             localStorage.setItem('userId', data.userId); 
           } else {
+            alert ("Incorrect email or password")
             this.errorMessage = 'Invalid login credentials';
             console.log('Login failed with response: ', data);
           }
@@ -143,10 +144,10 @@ export default {
 }
 .form-box{
     width: 380px;
-    height: 400px;
+    height: 350px;
     position: relative;
     margin: 6% auto;
-    background: rgba(255, 255, 255, 0.495);
+    background: rgba(130, 128, 246, 0.551);
     padding: 5px;
     overflow: hidden;
 }
@@ -155,7 +156,7 @@ export default {
     display: flex; 
     justify-content: space-between; 
     padding: 0 20px; 
-    box-shadow: 0 0 20px 9px #ff61241f;
+    box-shadow: 0 0 20px 9px #ef08081f;
     border-radius: 30px;
 }
 
@@ -234,5 +235,8 @@ span{
 }
 #register{
     left: 450px;
+}
+.input-field::placeholder {
+  color: #000000;
 }
 </style>

@@ -1,21 +1,26 @@
 <template>
-   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.6.1/font/bootstrap-icons.min.css">
+  <div class="image"></div>
   <div class="container py-5">
-    <h1 class="text-center mb-4 naslov fw-bold">Seat Selection</h1>
+    <h1 class="text-center mb-4 naslov fw-bold">
+      <i class="bi bi-person-lines-fill mr-2"></i>
+      Seat Selection
+    </h1>
     <div class="mb-3">
-      <label for="roomSelection" class="form-label">Select Room</label>
-      <select id="roomSelection" class="form-select" v-model="selectedRoom" @change="fetchRoomInfo">
+      <label for="roomSelection" class="form-label select-room-label">Select Room</label>
+      <select id="roomSelection" class="form-select w-25" v-model="selectedRoom" @change="fetchRoomInfo">
         <option v-for="room in rooms" :key="room" :value="room">Room {{ room }}</option>
+        
       </select>
     </div>
-    <h2 class=" mb-3" v-if="film">{{ film }}</h2>
-    <h3 class="mb-3" v-if="dateTime">{{ formatDate(dateTime) }}</h3>
+    <h2 class="mb-3 film-name" v-if="film">{{ film }}</h2>
+    <h3 class="mb-3 date-time" v-if="dateTime">{{ formatDate(dateTime) }}</h3>
     <div v-if="userType === 'employee'" class="mb-4">
-      <div class="input-group mb-3">
-        <input v-model="newFilm" type="text" class="form-control" placeholder="Enter film name">
+      <div class="input-group mb-3 w-25">
+        <input v-model="newFilm" type="text" class="form-control " placeholder="Enter film name">
         <button @click="setFilm" class="btn btn-primary">Set Film</button>
       </div>
-      <div class="input-group">
+      <div class="input-group w-50">
         <input v-model="newDateTime" type="datetime-local" class="form-control">
         <button @click="setDateTime" class="btn btn-primary">Set Date and Time</button>
       </div>
@@ -23,8 +28,11 @@
     <div class="row row-cols-1 row-cols-md-6 g-4">
       <div v-for="seat in seats" :key="seat._id" class="col">
         <button
-          class="btn seat w-100"
-          :class="seat.reserved ? 'btn-danger' : 'btn-success'"
+          class="btn seat w-100 rounded-pill shadow-lg"
+          :class="{
+            'btn-danger': seat.reserved,
+            'btn-success': !seat.reserved
+          }"
           :disabled="seat.reserved && seat.userId?._id !== userId && userType !== 'employee'"
           @click="userType === 'employee' ? viewSeatInfo(seat) : reserveSeat(seat._id)"
         >
@@ -40,6 +48,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -194,8 +203,34 @@ setDateTime() {
 
 
 <style scoped>
-.container {
-  padding: 2em;
+.image {
+  background-image: url(../assets/pozadina_sjedala.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.select-room-label {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 1rem;
+}
+
+.film-name {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.date-time {
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
 .title {
@@ -214,17 +249,42 @@ setDateTime() {
 }
 
 .seat {
-  text-align: center;
   height: 50px;
-  border-radius: .25rem;
-  font-size: .8em;
+  font-size: 1rem;
   cursor: pointer;
+  transition: all 0.3s;
 }
+
+.seat:disabled {
+  cursor: not-allowed;
+}
+
+.seat.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.seat.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.seat:hover {
+  transform: scale(1.05);
+}
+
 .naslov {
-font-size: 50px;
-font-weight: 50;
-text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-color: #7e5fbd;
-font-family: 'Brush Script MT';
+  align-items: center;
+  font-size: 100px;
+  font-weight: 80;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  color: #7e5fbd;
+  font-family: 'Brush Script MT';
 }
+
+.bi-person-lines-fill {
+  font-size: 100px;
+  color: #7e5fbd;
+}
+
 </style>
