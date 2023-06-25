@@ -36,7 +36,7 @@ export default {
   methods: {
     fetchUserReservations() {
       const userId = localStorage.getItem('userId');
-      fetch(`https://frontend-9jeh.onrender.com/user/reservations/${userId}`, {
+      fetch(`https://backend-o4q9.onrender.com/user/reservations/${userId}`, {
         credentials: 'include',
       })
         .then((response) => response.json())

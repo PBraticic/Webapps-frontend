@@ -34,7 +34,7 @@ export default {
     const isEmployee = computed(() => localStorage.getItem('userType') === 'employee');
 
     const logout = () => {
-      fetch('https://frontend-9jeh.onrender.com/logout', {
+      fetch('https://backend-o4q9.onrender.com/logout', {
         method: 'GET',
         credentials: 'include',
       })

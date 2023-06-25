@@ -89,7 +89,7 @@ export default {
     },
     fetchRoomInfo() {
       Promise.all(this.rooms.map(room =>
-        fetch(`https://frontend-9jeh.onrender.com/seat/${room}`, {
+        fetch(`https://backend-o4q9.onrender.com/seat/${room}`, {
           credentials: 'include',
         })
           .then(response => response.json())
@@ -112,7 +112,7 @@ export default {
       });
     },
     setFilm() {
-      fetch(`https://frontend-9jeh.onrender.com/seat/${this.selectedRoom}/setFilm`, {
+      fetch(`https://backend-o4q9.onrender.com/seat/${this.selectedRoom}/setFilm`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export default {
     },
 
     setDateTime() {
-      fetch(`https://frontend-9jeh.onrender.com/seat/${this.selectedRoom}/setDateTime`, {
+      fetch(`https://backend-o4q9.onrender.com/seat/${this.selectedRoom}/setDateTime`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,8 +156,8 @@ export default {
       const userId = localStorage.getItem('userId');
       const seat = this.seats.find(seat => seat._id === seatId);
       const url = seat.reserved
-        ? `https://frontend-9jeh.onrender.com/seat/unreserve/${seatId}`
-        : `https://frontend-9jeh.onrender.com/seat/reserve/${seatId}`;
+        ? `https://backend-o4q9.onrender.com/seat/unreserve/${seatId}`
+        : `https://backend-o4q9.onrender.com/seat/reserve/${seatId}`;
 
       fetch(url, {
         method: 'POST',
@@ -177,7 +177,7 @@ export default {
     },
     unreserveSeatByEmployee(seatId) {
       const userId = localStorage.getItem('userId');
-      fetch(`https://frontend-9jeh.onrender.com/seat/unreserveByEmployee/${seatId}`, {
+      fetch(`https://backend-o4q9.onrender.com/seat/unreserveByEmployee/${seatId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

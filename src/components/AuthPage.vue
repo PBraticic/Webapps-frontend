@@ -63,7 +63,7 @@ export default {
       this.isLogin = false;
     },
     login() {
-      fetch('https://frontend-9jeh.onrender.com/user/login', {
+      fetch('https://backend-o4q9.onrender.com/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export default {
       }
 
       try {
-        const response = await fetch('https://frontend-9jeh.onrender.com/user/register', {
+        const response = await fetch('https://backend-o4q9.onrender.com/user/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
