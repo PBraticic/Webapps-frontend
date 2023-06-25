@@ -1,5 +1,5 @@
 <template>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.6.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.6.1/font/bootstrap-icons.min.css">
   <div class="image"></div>
   <div class="container py-5">
     <h1 class="text-center mb-4 naslov fw-bold">
@@ -10,7 +10,7 @@
       <label for="roomSelection" class="form-label select-room-label">Select Room</label>
       <select id="roomSelection" class="form-select w-25" v-model="selectedRoom" @change="fetchRoomInfo">
         <option v-for="room in rooms" :key="room" :value="room">Room {{ room }}</option>
-        
+
       </select>
     </div>
     <h2 class="mb-3 film-name" v-if="film">{{ film }}</h2>
@@ -27,28 +27,24 @@
     </div>
     <div class="row row-cols-1 row-cols-md-6 g-4">
       <div v-for="seat in seats" :key="seat._id" class="col">
-        <button
-          class="btn seat w-100 rounded-pill shadow-lg"
-          :class="{
-            'btn-danger': seat.reserved,
-            'btn-success': !seat.reserved
-          }"
-          :disabled="seat.reserved && seat.userId?._id !== userId && userType !== 'employee'"
-          @click="userType === 'employee' ? viewSeatInfo(seat) : reserveSeat(seat._id)"
-        >
+        <button class="btn seat w-100 rounded-pill shadow-lg" :class="{
+          'btn-danger': seat.reserved,
+          'btn-success': !seat.reserved
+        }" :disabled="seat.reserved && seat.userId?._id !== userId && userType !== 'employee'"
+          @click="userType === 'employee' ? viewSeatInfo(seat) : reserveSeat(seat._id)">
           Seat {{ seat.number }}
         </button>
         <div v-if="selectedSeat?._id === seat._id" class="mt-2">
           <div>Reserved: {{ selectedSeat.reserved }}</div>
           <div v-if="selectedSeat.reserved">
             Reserved By: {{ selectedSeat.userId?.username }}
-            <button v-if="userType === 'employee'" class="btn btn-warning btn-sm" @click="unreserveSeatByEmployee(seat._id)">Remove Reservation</button>
+            <button v-if="userType === 'employee'" class="btn btn-warning btn-sm"
+              @click="unreserveSeatByEmployee(seat._id)">Remove Reservation</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -58,11 +54,11 @@ export default {
     return {
       seats: [],
       selectedSeat: null,
-      rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 
-      selectedRoom: 1, 
+      rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      selectedRoom: 1,
       film: '',
       newFilm: '',
-      roomFilms: {}, 
+      roomFilms: {},
       newDateTime: '',
       dateTime: '',
     };
@@ -93,7 +89,7 @@ export default {
     },
     fetchRoomInfo() {
       Promise.all(this.rooms.map(room =>
-        fetch(`http://localhost:3000/seat/${room}`, {
+        fetch(`https://frontend-9jeh.onrender.com/seat/${room}`, {
           credentials: 'include',
         })
           .then(response => response.json())
@@ -102,66 +98,66 @@ export default {
             if (room == this.selectedRoom) {
               this.seats = data.seats;
               this.film = data.film;
-              this.dateTime = data.dateTime;  
+              this.dateTime = data.dateTime;
             }
           })
       )).then(() => {
         if (this.userType === 'user') {
           this.rooms = this.rooms.filter(room => this.roomFilms[room]);
-          if (!this.roomFilms[this.selectedRoom]) { 
+          if (!this.roomFilms[this.selectedRoom]) {
             this.selectedRoom = this.rooms[0];
-            this.fetchRoomInfo(); 
+            this.fetchRoomInfo();
           }
         }
       });
     },
     setFilm() {
-  fetch(`http://localhost:3000/seat/${this.selectedRoom}/setFilm`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+      fetch(`https://frontend-9jeh.onrender.com/seat/${this.selectedRoom}/setFilm`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ film: this.newFilm }),
+        credentials: 'include',
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            console.log(data.message);
+          }
+          this.newFilm = '';
+          this.fetchRoomInfo();
+        })
+        .catch(error => console.error(`Fetch Error =\n`, error));
     },
-    body: JSON.stringify({ film: this.newFilm }),
-    credentials: 'include',
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        console.log(data.message);
-      }
-      this.newFilm = '';  
-      this.fetchRoomInfo();
-    })
-    .catch(error => console.error(`Fetch Error =\n`, error));
-},
 
-setDateTime() {
-  fetch(`http://localhost:3000/seat/${this.selectedRoom}/setDateTime`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+    setDateTime() {
+      fetch(`https://frontend-9jeh.onrender.com/seat/${this.selectedRoom}/setDateTime`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ dateTime: this.newDateTime }),
+        credentials: 'include',
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            console.log(data.message);
+          }
+          this.newDateTime = '';
+          this.fetchRoomInfo();
+        })
+        .catch(error => console.error(`Fetch Error =\n`, error));
     },
-    body: JSON.stringify({ dateTime: this.newDateTime }),
-    credentials: 'include',
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        console.log(data.message);
-      }
-      this.newDateTime = '';  
-      this.fetchRoomInfo();
-    })
-    .catch(error => console.error(`Fetch Error =\n`, error));
-},
 
 
     reserveSeat(seatId) {
       const userId = localStorage.getItem('userId');
       const seat = this.seats.find(seat => seat._id === seatId);
       const url = seat.reserved
-        ? `http://localhost:3000/seat/unreserve/${seatId}`
-        : `http://localhost:3000/seat/reserve/${seatId}`;
+        ? `https://frontend-9jeh.onrender.com/seat/unreserve/${seatId}`
+        : `https://frontend-9jeh.onrender.com/seat/reserve/${seatId}`;
 
       fetch(url, {
         method: 'POST',
@@ -181,7 +177,7 @@ setDateTime() {
     },
     unreserveSeatByEmployee(seatId) {
       const userId = localStorage.getItem('userId');
-      fetch(`http://localhost:3000/seat/unreserveByEmployee/${seatId}`, {
+      fetch(`https://frontend-9jeh.onrender.com/seat/unreserveByEmployee/${seatId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -286,5 +282,4 @@ setDateTime() {
   font-size: 100px;
   color: #7e5fbd;
 }
-
 </style>

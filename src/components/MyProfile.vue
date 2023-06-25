@@ -1,5 +1,5 @@
 <template>
-   <div class="image"></div>
+  <div class="image"></div>
   <div class="reservation-section">
     <div v-if="!reservations.length" class="alert alert-info">
       <p>You have not reserved any seats yet.</p>
@@ -36,7 +36,7 @@ export default {
   methods: {
     fetchUserReservations() {
       const userId = localStorage.getItem('userId');
-      fetch(`http://localhost:3000/user/reservations/${userId}`, {
+      fetch(`https://frontend-9jeh.onrender.com/user/reservations/${userId}`, {
         credentials: 'include',
       })
         .then((response) => response.json())

@@ -5,7 +5,7 @@
         <router-link to="/seats" class="text text-decoration-none">
           <h1 class="naslov fw-bold">SitCo</h1>
         </router-link>
-        
+
         <h1 class="nav-link nav-item ml-5 mx-5" v-if="!isEmployee">
           <router-link to="/MyProfile" class="text-decoration-none" style="color: #ff1010;">My Profile</router-link>
         </h1>
@@ -34,7 +34,7 @@ export default {
     const isEmployee = computed(() => localStorage.getItem('userType') === 'employee');
 
     const logout = () => {
-      fetch('http://localhost:3000/logout', {
+      fetch('https://frontend-9jeh.onrender.com/logout', {
         method: 'GET',
         credentials: 'include',
       })
